@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Page Title</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="ScoresStyle.css">
+<script src="ScoresScript.js" defer></script>
+</head>
+<body>
+        <!-- Navigation Bar -->
+        <div class="topnav">
+          <a href="Home.html">Home</a>
+          <a class="active" href="Scores.html">Scores</a>
+          <a href="Rules.html">Rules</a>
+          <div class="login-container">
+            <form action="/action_page.php">
+              <input type="text" placeholder="Username" name="username">
+              <input type="text" placeholder="Password" name="psw">
+              <button type="submit">Login</button>
+            </form>
+          </div>
+        </div>
+
+    <div class="header">
+        <h1>Prior Games</h1>
+      </div>
+
+      <!-- Date List -->
+      <div class="row">
+        <div class="side">Dates
+
+          <!-- filter button -->
+          <div class="dropdown">
+            <button class="dropbtn">Filter</button>
+            <div class="dropdown-content">
+            <a href="#">New</a>
+            <a href="#">Old</a>
+            <a href="#">Month</a>
+            </div>
+          </div>
+
+          <!-- list -->
+          <p><ul style="list-style-type:none;">
+            <li> <a href="#">Aug 24 2022 to Dec 5 2022</a></li>
+            <li> <a href="#">Aug 24 2021 to Dec 6 2021</a></li>
+            <li> <a href="#">Feb 2 2021 to May 11 2021</a></li>
+            <li><a href="#">Aug 25 2020 to Nov 24 2020</a></li>
+            <li><a href="#">Jan 23 2020 to May 5 2020</a></li>
+            <li><a href="#">Aug 27 2019 to Dec 9 2019</a></li>
+            <li><a href="#">Jan 24 2019 to May 8 2019</a></li>
+            <li><a href="#">Aug 28 2018 to Dec 10 2018</a></li>
+            <li><a href="#">Jan 24 2018 to May 9 2018</a></li>
+            <li><a href="#">Aug 29 2017 to Dec 11 2017</a></li>
+          </ul></p>
+        </div>
+        <div class="main">Main content
+          <div class="calendar">
+            <div class="calendar-header">
+              <span class="month-picker" id="month-picker"> May </span>
+              <div class="year-picker" id="year-picker">
+                <span class="year-change" id="pre-year">
+                  <pre><</pre>
+                </span>
+                <span id="year">2020 </span>
+                <span class="year-change" id="next-year">
+                  <pre>></pre>
+                </span>
+              </div>
+            </div>
+
+            <div class="calendar-body">
+              <div class="calendar-week-days">
+                <div>Sun</div>
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div>Sat</div>
+              </div>
+              <div class="calendar-days">
+              </div>
+            </div>
+            <div class="calendar-footer">
+            </div>
+            <div class="date-time-format">
+              <div class="day-text-format">TODAY</div>
+              <div class="date-time-value">
+                <div class="time-format">02:51:20</div>
+                <div class="date-format">31 - october - 2022</div>
+              </div>
+            </div>
+            <div class="month-list"></div>
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <div class="footer">
+        <h2>Footer</h2>
+      </div>
+</body>
+</html>
