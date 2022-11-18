@@ -13,12 +13,12 @@ QUICKSTART
 
 
 ENDPOINTS
--localhost:8000/
-  -api/contest
-    -api/contest/{pk id}
-  -api/detail
-    -api/detail/{pk id}
--localhost:3000
-  -/HomePage
-  -/LoginPage
-  -/ScoresPage
+1) localhost:8000/
+  - api/contest
+    - api/contest/{pk id}
+  - api/detail
+    - api/detail/{pk id}
+2) localhost:3000
+  - /HomePage
+  - /LoginPage
+  - /ScoresPage
