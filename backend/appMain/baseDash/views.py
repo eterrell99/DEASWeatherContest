@@ -8,6 +8,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 # Create your views here.
 from django.contrib.auth import logout, login, authenticate
 from django.http import HttpResponseRedirect
+#from rest_framework import viewset
 
 def updateContest():
 
@@ -37,9 +38,7 @@ class contestDetail(generics.RetrieveDestroyAPIView):
     lookup_fields = ['Contest','pk','slug','day']
 
 class contestList(generics.ListCreateAPIView):
-    authentication_classes = [authentication.SessionAuthentication,
-                              authentication.BasicAuthentication,
-                              authentication.TokenAuthentication]
+    authentication_classes = [authentication.SessionAuthentication]
     permission_classes = [permissions.IsAdminUser]
     queryset = Contest.objects.all()
     serializer_class = ContestSerializer
@@ -56,8 +55,3 @@ class predictionList(generics.ListCreateAPIView):
     lookup_fields = ['contest', 'source', 'slug']
 
 
-def logout_view(request):
-    username = User.username(request)
-    if username != None:
-        logout(request)
-        return HttpResponseRedirect('/')

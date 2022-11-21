@@ -1,15 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "./LoginPage.css";
+import axiosInstance from 'axios';
+
+import {Redirect, useNavigate} from 'react-router-dom'
 import {
   MDBBtn,
   MDBContainer,
   MDBRow,
   MDBCol,
   MDBInput
-}
-from 'mdb-react-ui-kit';
+} from 'mdb-react-ui-kit';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 
-function App() {
+
+export default function SignIn() {
+	const navigate = useNavigate();
+	const initialFormData = Object.freeze({
+		username: '',
+		password: '',
+	});
+
+	const [formData, updateFormData] = useState(initialFormData);
+
+	const handleChange = (e) => {
+		updateFormData({
+			...formData,
+			[e.target.name]: e.target.value.trim(),
+		});
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		console.log(formData);
+
+		axiosInstance
+			.post(`http://localhost:8000/api/token/`, {
+				username: formData.username,
+				password: formData.password,
+			})
+			.then((res) => {
+				localStorage.setItem('access_token', res.data.access);
+				localStorage.setItem('refresh_token', res.data.refresh);
+				axiosInstance.defaults.headers['Authorization'] =
+					'JWT ' + localStorage.getItem('access_token');
+				navigate('/HomePage');
+				console.log(res);
+				console.log(res.data);
+
+			});
+	};
+
+
+
   return (
     <MDBContainer className="my-5 gradient-form">
 
@@ -25,22 +77,50 @@ function App() {
             </div>
 
             <p>Please login to your account</p>
-            <div>
-              <form>
+            <form noValidate>
+					<TextField
+						variant="outlined"
+						margin="normal"
+						required
+						fullWidth
+						id="username"
+						label="username"
+						name="username"
+						autoComplete="username"
+						autoFocus
+						onChange={handleChange}
+					/>
+					<TextField
+						variant="outlined"
+						margin="normal"
+						required
+						fullWidth
+						name="password"
+						label="Password"
+						type="password"
+						id="password"
+						autoComplete="current-password"
+						onChange={handleChange}
+					/>
+					<FormControlLabel
+						control={<Checkbox value="remember" color="primary" />}
+						label="Remember me"
+					/>
+					<Button
+						type="submit"
+						fullWidth
+						variant="contained"
+						color="primary"
 
-              <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password'/>
-              <MDBInput wrapperClass='mb-4' label='Email address' id='form1' type='email'/>
+						onClick={handleSubmit}
+					>
+						Sign In
+					</Button>
 
-
-              <div className="text-center pt-1 mb-5 pb-1">
-                <MDBBtn className="mb-4 w-100 gradient-custom-2">Sign in</MDBBtn>
-                <a className="text-muted" href="#!">Forgot password?</a>
-              </div>
               </form>
             </div>
 
 
-          </div>
 
         </MDBCol>
 
@@ -67,4 +147,4 @@ function App() {
   );
 }
 
-export default App;
+//export default App;

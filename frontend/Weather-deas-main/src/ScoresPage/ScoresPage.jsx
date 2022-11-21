@@ -13,10 +13,10 @@ function ScoresPage() {
     <div className="dropdown">
     <button className="dropbtn">Sort By</button>
     <div className="dropdown-content">
-      <a href="#">Complete Scores</a>
-      <a href="#">Scores By Period</a>
-      <a href="#">Scores By Game</a>
-      <a href="#">All Scores</a>
+      <a href="">Complete Scores</a>
+      <a href="">Scores By Period</a>
+      <a href="">Scores By Game</a>
+      <a href="">All Scores</a>
     </div>
     </div>
     <br />
