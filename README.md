@@ -7,7 +7,7 @@ QUICKSTART
     - python manage.py runserver
 
 2) Frontend
-  - npm install
+  - npm install -f
   - npm run build
   - npm start
 
