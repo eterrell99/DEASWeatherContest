@@ -28,7 +28,7 @@ class Contest(models.Model):
         return f'{self.day}'
 
 class Prediction(models.Model):
-    source = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True,related_name='source')
+    source = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True,related_name='thesource')
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE,default=0,related_name='entry')
     slug = models.SlugField(blank=True, null=True)
     last_modified = models.DateField(auto_now=True, auto_now_add=False)
@@ -68,7 +68,7 @@ class Prediction(models.Model):
 
 
     def __str__(self):
-        return f'Contest Date: {self.contest.day} , {self.source.profileSlug}'
+        return f'Contest Date: {self.contest.day}'
 
 '''
 every time a forecast is made, four periods of forecasts are made:

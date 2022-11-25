@@ -30,6 +30,7 @@ class EntrySerializer(serializers.ModelSerializer):
             'id',
             'slug',
             'source',
+            'contest'
 
         ]
 
@@ -53,6 +54,7 @@ class ContestSerializer(serializers.ModelSerializer):
         fields = [
             'day',
             'entry',
+            'slug'
 
         ]
     def get_owner(self, obj):

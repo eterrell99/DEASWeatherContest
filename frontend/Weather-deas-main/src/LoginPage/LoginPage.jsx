@@ -32,7 +32,7 @@ export default function SignIn() {
 
 	const [formData, updateFormData] = useState(initialFormData);
 
-	const handleChange = (e) => {
+	const handleFormChange = (e) => {
 		updateFormData({
 			...formData,
 			[e.target.name]: e.target.value.trim(),
@@ -53,9 +53,10 @@ export default function SignIn() {
 				localStorage.setItem('refresh_token', res.data.refresh);
 				axiosInstance.defaults.headers['Authorization'] =
 					'JWT ' + localStorage.getItem('access_token');
-				navigate('/HomePage');
 				console.log(res);
 				console.log(res.data);
+				navigate('/HomePage');
+
 
 			});
 	};
@@ -88,7 +89,7 @@ export default function SignIn() {
 						name="username"
 						autoComplete="username"
 						autoFocus
-						onChange={handleChange}
+						onChange={handleFormChange}
 					/>
 					<TextField
 						variant="outlined"
@@ -100,7 +101,7 @@ export default function SignIn() {
 						type="password"
 						id="password"
 						autoComplete="current-password"
-						onChange={handleChange}
+						onChange={handleFormChange}
 					/>
 					<FormControlLabel
 						control={<Checkbox value="remember" color="primary" />}

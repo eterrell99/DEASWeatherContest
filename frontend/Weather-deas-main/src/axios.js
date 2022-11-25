@@ -10,7 +10,8 @@ const axiosInstance = axios.create({
 			? 'JWT ' + localStorage.getItem('access_token')
 			: null,
 		'Content-Type': 'application/json',
-		accept: 'application/json',
+		accept: 'application/json',"Access-Control-Allow-Origin": "http://localhost:3000/"
+
 	},
 });
 
@@ -34,7 +35,7 @@ axiosInstance.interceptors.response.use(
 			error.response.status === 401 &&
 			originalRequest.url === baseURL + 'token/refresh/'
 		) {
-			window.location.href = '/login/';
+			window.location.href = '/LoginPage/';
 			return Promise.reject(error);
 		}
 
