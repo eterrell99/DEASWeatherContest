@@ -18,7 +18,13 @@ ENDPOINTS
     - api/contest/{pk id}
   - api/detail
     - api/detail/{pk id}
+  - api/scores
+    - api/scores/{pk id}
+ - api/reports
+    - api/reports/{pk id}
 2) localhost:3000
   - /HomePage
   - /LoginPage
   - /ScoresPage
+  - /SubmitPage
+  - /SubmitForm
