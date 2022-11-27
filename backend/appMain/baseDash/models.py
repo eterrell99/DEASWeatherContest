@@ -2,9 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from random import randint
 from django.utils import timezone
-
+from datetime import date
 # Create your models here.
-
 
 
 class Profile(models.Model):
@@ -27,9 +26,57 @@ class Contest(models.Model):
     def __str__(self):
         return f'{self.day}'
 
+    @property
+    def is_active(self):
+        return date.today() > self.date
+
+
 class Prediction(models.Model):
     source = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True,related_name='thesource')
-    contest = models.ForeignKey(Contest, on_delete=models.CASCADE,default=0,related_name='entry')
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE,default=0,related_name='entry',null=True,blank=True)
+    slug = models.SlugField(blank=True, null=True)
+    last_modified = models.DateField(auto_now=True, auto_now_add=False)
+    created = models.DateField(auto_now=False, auto_now_add=True)
+
+    p1_high_temp = models.FloatField(max_length=4,default=0, null=True, blank=True)
+    p1_tr0 = models.FloatField(default=0, null=True, blank=True)
+    p1_tr1 = models.FloatField(default=0, null=True, blank=True)
+    p1_tr2 = models.FloatField(default=0, null=True, blank=True)
+    p1_tr3 = models.FloatField(default=0, null=True, blank=True)
+    p1_tr4 = models.FloatField(default=0, null=True, blank=True)
+    p1_tr5 = models.FloatField(default=0, null=True, blank=True)
+
+    p2_low_temp = models.FloatField(max_length=4, default=0, null=True, blank=True)
+    p2_tr0 = models.FloatField(default=0, null=True, blank=True)
+    p2_tr1 = models.FloatField(default=0, null=True, blank=True)
+    p2_tr2 = models.FloatField(default=0, null=True, blank=True)
+    p2_tr3 = models.FloatField(default=0, null=True, blank=True)
+    p2_tr4 = models.FloatField(default=0, null=True, blank=True)
+    p2_tr5 = models.FloatField(default=0, null=True, blank=True)
+
+    p3_high_temp = models.FloatField(max_length=4, default=0, null=True, blank=True)
+    p3_tr0 = models.FloatField(default=0, null=True, blank=True)
+    p3_tr1 = models.FloatField(default=0, null=True, blank=True)
+    p3_tr2 = models.FloatField(default=0, null=True, blank=True)
+    p3_tr3 = models.FloatField(default=0, null=True, blank=True)
+    p3_tr4 = models.FloatField(default=0, null=True, blank=True)
+    p3_tr5 = models.FloatField(default=0, null=True, blank=True)
+
+    p4_low_temp = models.FloatField(max_length=4, default=0, null=True, blank=True)
+    p4_tr0 = models.FloatField(default=0, null=True, blank=True)
+    p4_tr1 = models.FloatField(default=0, null=True, blank=True)
+    p4_tr2 = models.FloatField(default=0, null=True, blank=True)
+    p4_tr3 = models.FloatField(default=0, null=True, blank=True)
+    p4_tr4 = models.FloatField(default=0, null=True, blank=True)
+    p4_tr5 = models.FloatField(default=0, null=True, blank=True)
+
+
+    def __str__(self):
+        return f'Contest Date: {self.contest.day}'
+
+class Report(models.Model):
+    source = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True)
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE,default=0)
     slug = models.SlugField(blank=True, null=True)
     last_modified = models.DateField(auto_now=True, auto_now_add=False)
     created = models.DateField(auto_now=False, auto_now_add=True)
@@ -66,10 +113,14 @@ class Prediction(models.Model):
     p4_tr4 = models.FloatField(default=0)
     p4_tr5 = models.FloatField(default=0)
 
-
+class Score(models.Model):
+    source = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True)
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE, default=0)
+    entry = models.ForeignKey(Prediction, on_delete=models.CASCADE, null=True, blank=True)
+    report = models.ForeignKey(Report, on_delete=models.CASCADE, null=True, blank=True)
+    overall_score = models.FloatField(max_length=4,default=0.00)
     def __str__(self):
-        return f'Contest Date: {self.contest.day}'
-
+        return f'{self.overall_score}'
 '''
 every time a forecast is made, four periods of forecasts are made:
 
