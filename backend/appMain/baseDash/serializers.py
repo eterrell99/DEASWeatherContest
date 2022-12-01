@@ -44,6 +44,7 @@ class ReportSerializer(serializers.ModelSerializer):
 
 
 class ContestSerializer(serializers.ModelSerializer):
+    #is_active = serializers.Field()
     class Meta:
         model = Contest
         fields = '__all__'
@@ -73,3 +74,10 @@ class EntrySerializer(serializers.ModelSerializer):
                 print(request.user.username)
                 return True
         return False
+
+class CreateEntrySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Prediction
+
+        fields = '__all__'

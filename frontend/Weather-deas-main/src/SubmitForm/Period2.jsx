@@ -30,7 +30,7 @@ function Period2({ formData, setFormData }) {
         <br />
         <p>Low Temp</p>
         <input
-          type="text"
+          type="number"
           value={formData.highTempP2}
           onChange={handleTempChange}
         />

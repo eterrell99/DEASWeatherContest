@@ -13,10 +13,11 @@ function SubmitForm() {
   const [page, setPage] = useState(0);
 
   const [formData, setFormData] = useState({
-    lowTempP1: '',
-    highTempP2: '',
-    lowTempP3: '',
-    highTempP4: '',
+
+    lowTempP1: 0,
+    highTempP2: 0,
+    lowTempP3: 0,
+    highTempP4: 0,
     PrecipZeroToTracP1e: 0,
     PrecipTraceTo005P1: 0,
     Precip06To14P1: 0,
@@ -41,52 +42,49 @@ function SubmitForm() {
     Precip15To24P4: 0,
     Precip25To49P4: 0,
     Precip50PlusP4: 0,
+
   });
   const token = localStorage.getItem('access_token')
   const FormTitles = ['Period 1', 'Period 2', 'Period 3', 'Period 4'];
-  let createEntry = async () =>{
-          fetch('http://localhost:8000/api/detailcreate/',{
-          method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
+  let createEntry = axios.post('http://localhost:8000/api/detailcreate/',
+      {
+              token: localStorage.getItem('access_token'),
+              p1_low_temp: formData.lowTempP1,
+              p2_high_temp: formData.highTempP2,
+              p3_low_temp: formData.lowTempP3,
+              p4_high_temp: formData.highTempP4,
+              p1_tr0: formData.PrecipZeroToTracP1e,
+              p1_tr1: formData.PrecipTraceTo005P1,
+              p1_tr2: formData.Precip06To14P1,
+              p1_tr3: formData.Precip15To24P1,
+              p1_tr4: formData.Precip25To49P1,
+              p1_tr5: formData.Precip50PlusP1,
+              p2_tr0: formData.PrecipZeroToTraceP2,
+              p2_tr1: formData.PrecipTraceTo005P2,
+              p2_tr2: formData.Precip06To14P2,
+              p2_tr3: formData.Precip15To24P2,
+              p2_tr4: formData.Precip25To49P2,
+              p2_tr5: formData.Precip50PlusP2,
+              p3_tr0: formData.PrecipZeroToTraceP3,
+              p3_tr1: formData.PrecipTraceTo005P3,
+              p3_tr2: formData.Precip06To14P3,
+              p3_tr3: formData.Precip15To24P3,
+              p3_tr4: formData.Precip25To49P3,
+              p3_tr5: formData.Precip50PlusP3,
+              p4_tr0: formData.PrecipZeroToTraceP4,
+              p4_tr1: formData.PrecipTraceTo005P4,
+              p4_tr2: formData.Precip06To14P4,
+              p4_tr3: formData.Precip15To24P4,
+              p4_tr4: formData.Precip25To49P4,
+              p4_tr5: formData.Precip50PlusP4,
             },
+      {'Content-Type': 'application/json',
+              token: localStorage.getItem('access_token')
+            }
 
-            body: JSON.stringify( {
-            source:'1',
-            contest:'3',
-              slug:'',
-            p1_low_temp:'',
-            p1_tr0: '',
-            p1_tr1: '',
-            p1_tr2: '',
-            p1_tr3: '',
-            p1_tr4: '',
-            p1_tr5: '',
-            p2_high_temp:'',
-            p2_tr0: '',
-            p2_tr1: '',
-            p2_tr2: '',
-            p2_tr3: '',
-            p2_tr4: '',
-            p2_tr5: '',
-            p3_low_temp:'',
-            p3_tr0: '',
-            p3_tr1: '',
-            p3_tr2: '',
-            p3_tr3: '',
-            p3_tr4: '',
-            p3_tr5: '',
-            p4_high_temp:'',
-            p4_tr0: '',
-            p4_tr1: '',
-            p4_tr2: '',
-            p4_tr3: '',
-            p4_tr4: '',
-            p4_tr5: '',
-            })
-          })
+          );
 
-        }
+
   const PageDisplay = () => {
     if (page === 0) {
       return <Period1 formData={formData} setFormData={setFormData} />;
@@ -107,22 +105,15 @@ function SubmitForm() {
   const handleSubmit = (e) => {
 
     e.preventDefault();
-    if (page === FormTitles.length - 1) {
+    if (page === 3) {
 
 
-      axios
-        .post('http://localhost:8000/api/token/verify/',{
-          token: localStorage.getItem('access_token')
-        })
-        .then((res) => {
-        createEntry()
-
-
-        });
-
-
-
-
+      axios.post('http://localhost:8000/api/token/verify/', {
+            token: localStorage.getItem('access_token')
+          })
+          .then((res) => {
+            createEntry()
+          });
 
 
     } else {
@@ -130,7 +121,7 @@ function SubmitForm() {
 
 
     }
-  };
+  }
 
   return (
     <div>
@@ -163,8 +154,10 @@ function SubmitForm() {
                   Prev
                 </button>
                 <button onClick={handleSubmit}>
-                  {page === FormTitles.length - 1 ? 'Submit' : 'Next'}
-                </button>
+                {page === FormTitles.length - 1 ?
+                  'Submit':'Next Period'
+
+                }</button>
               </div>
             </div>
           </div>
@@ -172,35 +165,30 @@ function SubmitForm() {
       </main>
     </div>
   );
-}
 
+}
 export default SubmitForm;
-/*
-formData.lowTempP1,
-formData.PrecipZeroToTracP1e,
-formData.PrecipTraceTo005P1,
-formData.Precip06To14P1,
-formData.Precip15To24P1,
-formData.Precip25To49P1,
-formData.Precip50PlusP1,
-formData.highTempP2,
-formData.PrecipZeroToTraceP2,
-formData.PrecipTraceTo005P2,
-formData.Precip06To14P2,
-formData.Precip15To24P2,
-formData.Precip25To49P2,
-formData.Precip50PlusP2,
-formData.lowTempP3,
-formData.PrecipZeroToTraceP3,
-formData.PrecipTraceTo005P3,
-formData.Precip06To14P3,
-formData.Precip15To24P3,
-formData.Precip25To49P3,
-formData.Precip50PlusP3,
-formData.highTempP4,
-formData.PrecipZeroToTraceP4,
-formData.PrecipTraceTo005P4,
-formData.Precip06To14P4,
-formData.Precip15To24P4,
-formData.Precip25To49P4,
-formData.Precip50PlusP4,*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -7,7 +7,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
+import Grid from '@mui/material/Grid';
 
 const bull = (
   <Box
@@ -19,11 +19,18 @@ const bull = (
 );
 
 
+
+
+
+
+
+
 const Contests = () => {
     const [contests, setContests] = useState(
         []
     );
 	const token = localStorage.getItem('access_token');
+    try {
     const response = fetch("http://localhost:8000/api/contest/", {
     method: "GET",
     mode: "cors",
@@ -38,11 +45,16 @@ const Contests = () => {
     }).then((res) => {
         return res.json()})
         .then((data)=> setContests(data))
+    } catch (err) {
+        console.log(err)
+    }
 
 
+    return ( <Box sx={{ flexGrow: 1}}>
+      <Grid container spacing={2}>
 
-    return (<div>
            { contests.map((each) => (
+    <Grid item xs={4}>
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -62,11 +74,14 @@ const Contests = () => {
         <Button size="medium" variant="contained">Submit</Button>
       </CardActions>
     </Card>
+    </Grid>
+
                 )
             )
 
            }
-    </div>
+         </Grid>
+    </Box>
             );
 }
 export default Contests;

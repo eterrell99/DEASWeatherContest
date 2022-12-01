@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 function Period4({ formData, setFormData }) {
   const handleTempChange = (e) => {
-    setFormData({ ...formData, highTempP4: e.target.value });
+    setFormData({ highTempP4: e.target.value });
   };
 
   const handleZeroChange = (e) => {
@@ -30,8 +30,8 @@ function Period4({ formData, setFormData }) {
         <br />
         <p>Low Temp</p>
         <input
-          type="text"
-          value={formData.lowTempP1}
+          type="number"
+          value={formData.highTempP4}
           onChange={handleTempChange}
         />
         <p>Precip for 0 or Trace</p>
