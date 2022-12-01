@@ -20,11 +20,11 @@ const bull = (
 
 
 const Contests = () => {
-    const [users, setUsers] = useState(
+    const [contests, setContests] = useState(
         []
     );
 	const token = localStorage.getItem('access_token');
-    const response = fetch("http://localhost:8000/api/user/", {
+    const response = fetch("http://localhost:8000/api/contest/", {
     method: "GET",
     mode: "cors",
     withCredentials: false,
@@ -37,31 +37,29 @@ const Contests = () => {
 
     }).then((res) => {
         return res.json()})
-        .then((data)=> setUsers(data))
+        .then((data)=> setContests(data))
 
 
 
     return (<div>
-           { users.map((each) => (
+           { contests.map((each) => (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
+          DEAS Weather Contest
         </Typography>
         <Typography variant="h5" component="div">
-          be{bull}nev{bull}o{bull}lent
+            {each.day}
         </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
-        </Typography>
+
         <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
+            Contest Closes At:
+            <br/>
+            {each.cCLose}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button size="medium" variant="contained">Submit</Button>
       </CardActions>
     </Card>
                 )

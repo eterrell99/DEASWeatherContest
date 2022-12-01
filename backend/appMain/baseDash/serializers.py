@@ -44,18 +44,11 @@ class ReportSerializer(serializers.ModelSerializer):
 
 
 class ContestSerializer(serializers.ModelSerializer):
-
-
-
-
     class Meta:
         model = Contest
-        fields = [
-            'day',
-            'entry',
-            'slug'
+        fields = '__all__'
 
-        ]
+
     def get_owner(self, obj):
         request = self.context['request']
         if request.user.is_authenticated:
