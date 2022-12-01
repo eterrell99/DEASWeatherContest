@@ -6,9 +6,10 @@ from .models import Contest, Prediction, Profile, Score, Report
 from .serializers import ContestSerializer, EntrySerializer, UserPublicSerializer, ScoreSerializer,ReportSerializer
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 # Create your views here.
+from rest_framework import status
 from django.contrib.auth import logout, login, authenticate
 from django.http.response import HttpResponse
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
 def updateContest():
@@ -103,15 +104,18 @@ class contestList(generics.ListCreateAPIView):
     #     response["Access-Control-Allow-Origin"] = "true"
     #     return response
 
-def predictionList(request):
+class predictionList(generics.ListCreateAPIView):
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.AllowAny]
     queryset = Prediction.objects.all()
-    #serializer = EntrySerializer(data=request.data)
-    headers = {"Access-Control-Allow-Origin": "http://localhost:8000"}
-    #lookup_fields = ['contest', 'source', 'slug']
-    #if serializer.is_valid():
-        #serializer.save()
-    print(request.data)
-    return HttpResponse(200)
+    serializer_class = EntrySerializer
+    headers = {"Access-Control-Allow-Origin": "http://localhost:8000/"}
+    lookup_fields = ['__all__']
 
+class predictionCreate(generics.CreateAPIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.AllowAny]
+    queryset = Prediction.objects.all()
+    serializer_class = EntrySerializer
+    headers = {"Access-Control-Allow-Origin": "http://localhost:8000/"}
+    lookup_fields = ['__all__']

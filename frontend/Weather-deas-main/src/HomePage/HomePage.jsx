@@ -6,7 +6,8 @@ import Contests from './Contests';
 import cookie from 'react-cookies'
 import axios from "axios";
 import axiosInstance from "axios";
-
+import Widgit from './widgit'
+import Clock from './clock'
 function HomePage() {
 
     const ContestLoading = ContestLoadingComponent(Contests);
@@ -30,7 +31,6 @@ function HomePage() {
         });
 
 
-    let [responseData, setResponseData] = React.useState('')
 
 
 
@@ -116,6 +116,8 @@ function HomePage() {
                             </table>
                         </div>
                         <div >
+                            <Clock />
+                            <Widgit />
                             <Contests />
                         </div>
 

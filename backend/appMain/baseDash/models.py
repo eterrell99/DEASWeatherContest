@@ -3,24 +3,38 @@ from django.contrib.auth.models import User
 from random import randint
 from django.utils import timezone
 from datetime import date
-# Create your models here.
+import string
+import random
+
+
+def generate_slug_code():
+    length = 8
+    while True:
+        slug = ''.join(random.choices(string.ascii_lowercase,k=length))
+        if Contest.objects.filter(slug=slug).count == 0:
+            break
+    return slug
+
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     image = models.ImageField(default='default.jpg', upload_to='profile_img')
     profileSlug = models.SlugField(max_length=20, blank=True, null=True)
+
+    def count(self):
+        entry = Prediction.objects.filter(source=self.user)
+        return (entry.length)
     def __str__(self):
         return f'{self.profileSlug} - Profile'
 
 class Contest(models.Model):
-
     day = models.DateField()
     info = models.CharField(default='sample description', max_length=500)
     url = models.CharField(default='/sample_url', max_length=40)
     lnk = models.CharField(default='hi', max_length=1000)
     cOpen = models.DateTimeField(null=True)
-    cCLose = models.DateTimeField(null=True)
+    cCLose = models.DateTimeField(default='',null=True)
     slug = models.SlugField(blank=True, null=True)
 
     def __str__(self):
@@ -28,17 +42,16 @@ class Contest(models.Model):
 
     @property
     def is_active(self):
-        return date.today() > self.date
-
+        return self.cCLose() > self.date
 
 class Prediction(models.Model):
-    source = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True,related_name='thesource')
+    source = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True,related_name='thesource')
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE,default=0,related_name='entry',null=True,blank=True)
-    slug = models.SlugField(blank=True, null=True)
+    slug = models.SlugField(default=generate_slug_code, blank=False, null=True)
     last_modified = models.DateField(auto_now=True, auto_now_add=False)
     created = models.DateField(auto_now=False, auto_now_add=True)
 
-    p1_high_temp = models.FloatField(max_length=4,default=0, null=True, blank=True)
+    p1_low_temp = models.FloatField(max_length=4,default=0, null=True, blank=True)
     p1_tr0 = models.FloatField(default=0, null=True, blank=True)
     p1_tr1 = models.FloatField(default=0, null=True, blank=True)
     p1_tr2 = models.FloatField(default=0, null=True, blank=True)
@@ -46,7 +59,7 @@ class Prediction(models.Model):
     p1_tr4 = models.FloatField(default=0, null=True, blank=True)
     p1_tr5 = models.FloatField(default=0, null=True, blank=True)
 
-    p2_low_temp = models.FloatField(max_length=4, default=0, null=True, blank=True)
+    p2_high_temp = models.FloatField(max_length=4, default=0, null=True, blank=True)
     p2_tr0 = models.FloatField(default=0, null=True, blank=True)
     p2_tr1 = models.FloatField(default=0, null=True, blank=True)
     p2_tr2 = models.FloatField(default=0, null=True, blank=True)
@@ -54,7 +67,7 @@ class Prediction(models.Model):
     p2_tr4 = models.FloatField(default=0, null=True, blank=True)
     p2_tr5 = models.FloatField(default=0, null=True, blank=True)
 
-    p3_high_temp = models.FloatField(max_length=4, default=0, null=True, blank=True)
+    p3_low_temp = models.FloatField(max_length=4, default=0, null=True, blank=True)
     p3_tr0 = models.FloatField(default=0, null=True, blank=True)
     p3_tr1 = models.FloatField(default=0, null=True, blank=True)
     p3_tr2 = models.FloatField(default=0, null=True, blank=True)
@@ -62,7 +75,7 @@ class Prediction(models.Model):
     p3_tr4 = models.FloatField(default=0, null=True, blank=True)
     p3_tr5 = models.FloatField(default=0, null=True, blank=True)
 
-    p4_low_temp = models.FloatField(max_length=4, default=0, null=True, blank=True)
+    p4_high_temp = models.FloatField(max_length=4, default=0, null=True, blank=True)
     p4_tr0 = models.FloatField(default=0, null=True, blank=True)
     p4_tr1 = models.FloatField(default=0, null=True, blank=True)
     p4_tr2 = models.FloatField(default=0, null=True, blank=True)
@@ -80,7 +93,6 @@ class Report(models.Model):
     slug = models.SlugField(blank=True, null=True)
     last_modified = models.DateField(auto_now=True, auto_now_add=False)
     created = models.DateField(auto_now=False, auto_now_add=True)
-
     p1_high_temp = models.FloatField(max_length=4,default=0)
     p1_tr0 = models.FloatField(default=0)
     p1_tr1 = models.FloatField(default=0)

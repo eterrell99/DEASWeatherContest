@@ -26,7 +26,7 @@ class UserPublicSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = '__all__'
+        fields =['user']
 class ScoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Score
@@ -39,26 +39,12 @@ class ReportSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class EntrySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Prediction
 
-        fields = '__all__'
-
-
-
-    def get_owner(self, obj):
-        request = self.context['request']
-        if request.user.is_authenticated:
-            if obj.user == request.user:
-                print(request.user.username)
-                return True
-        return False
 
 
 
 class ContestSerializer(serializers.ModelSerializer):
-    entry = EntrySerializer(many=True, read_only=True)
+
 
 
 
@@ -74,5 +60,23 @@ class ContestSerializer(serializers.ModelSerializer):
         request = self.context['request']
         if request.user.is_authenticated:
             if obj.user == request.user:
+                return True
+        return False
+class EntrySerializer(serializers.ModelSerializer):
+
+    source = ProfileSerializer
+    contest = ContestSerializer
+    class Meta:
+        model = Prediction
+
+        fields = '__all__'
+
+
+
+    def get_owner(self, obj):
+        request = self.context['request']
+        if request.user.is_authenticated:
+            if obj.user == request.user:
+                print(request.user.username)
                 return True
         return False
